@@ -13,6 +13,7 @@ class Player():
         self.jump = 0
         self.jump_tol = 0
         self.jump_count = 0
+        self.do_land = False
 
     def event(self, event):
         if event.type == KEYDOWN:
@@ -24,7 +25,7 @@ class Player():
         return self.jump == 0
 
     def land(self):
-        self.vel[0] = 0
+        self.do_land = True
         self.jump = 0
         self.jump_count=0
 
@@ -45,9 +46,16 @@ class Player():
         if self.vel[0] > xvel: self.vel[0] = xvel
         if self.vel[0] < -xvel: self.vel[0] = -xvel
 
+        pos = list(self.pos)
 
         self.g.map.do_player(self, delta)
 
+        if self.do_land:
+            self.do_land=False
+            self.vel[0] = 0
+        #TODO better landing management?
+        dvel = list(map(lambda x: x[0]-x[1], zip(pos, self.pos)))
+        print(dvel)
 
     def render(self):
         screen = self.g.get_screen(0)

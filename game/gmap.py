@@ -59,7 +59,6 @@ class Room():
         self.jumpseq = JumpSequence()
 
         #temporary
-        self.tiles[(0,0)].color = 1
         for x in range(self.size[0]):
             self.tiles[(x, self.size[1]-1)].color= 2
         for x in [10,11,12]:
