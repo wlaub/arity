@@ -4,6 +4,8 @@ from pygame.locals import *
 
 class Player():
 
+    xvel = 120
+
     def __init__(self, game, config):
         self.g = game
         self.pos = config.get('start_pos', [400,300])
@@ -21,23 +23,31 @@ class Player():
         return abs(self.vel[1]) <= self.jump_tol
         return self.jump == 0
 
-    def tick(self):
+    def land(self):
+        self.vel[0] = 0
+        self.jump = 0
+        self.jump_count=0
+
+    def tick(self, delta):
         keys = pygame.key.get_pressed()
+        xvel = self.xvel
         if keys[K_LEFT]:
             if self.jump > 0:
-                self.vel[0] -= .5
+                self.vel[0] -= xvel/8.
             else:
-                self.vel[0] = -4
+                self.vel[0] = -xvel
         elif keys[K_RIGHT]:
             if self.jump > 0:
-                self.vel[0] += .5
+                self.vel[0] += xvel/8.
             else:
-                self.vel[0] = 4
+                self.vel[0] = xvel
 
-        if self.vel[0] > 4: self.vel[0] = 4
-        if self.vel[0] < -4: self.vel[0] = -4
+        if self.vel[0] > xvel: self.vel[0] = xvel
+        if self.vel[0] < -xvel: self.vel[0] = -xvel
 
-        self.g.map.do_player(self)
+
+        self.g.map.do_player(self, delta)
+
 
     def render(self):
         screen = self.g.get_screen(0)

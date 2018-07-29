@@ -43,8 +43,10 @@ class Game():
             screen.fill(self.color_key)
 
     def run(self):
+        start_time = time.time()
         while not self.done:
-            start_time = time.time()
+            delta = time.time() - start_time
+            start_time += delta
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -62,7 +64,7 @@ class Game():
                         if obj.event(event): continue
 
             for obj in self.tick_objects:
-                result = obj.tick()
+                result = obj.tick(delta)
 
             self.screen.fill((0,0,0))
             self.clear_screens()
