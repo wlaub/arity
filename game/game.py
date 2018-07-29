@@ -2,8 +2,8 @@ import pygame
 from pygame.locals import *
 
 import time
-import gmap
-import player
+from . import gmap
+from . import player
 
 class Game():
 
