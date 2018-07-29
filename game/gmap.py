@@ -52,7 +52,7 @@ class Map():
 class Room():
     size = (40,30)
 
-    grav = .25
+    grav = .1
 
     def __init__(self, game, config):
         self.g = game
@@ -120,12 +120,14 @@ class Tile():
 
 class JumpSequence():
     def __init__(self):
-        self.times = [30,15,15,30,30,15,15,30]
-        self.notes = [0, 5, 7, 3, 0, 5, 7, 7]
+        scale = 15
+        self.times = [2, 1, 2, 2, 4]
+        self.notes = [4, 7, 9, 11, 7]
+        self.times = list(map(lambda x: x*scale, self.times))
 
         import numpy as np
 
-        sample = lambda x: int(10000* (math.exp(-x[0]/10000.)) * (math.sin(.05*x[0]*2**(x[1]/12.))) )
+        sample = lambda x: int(10000* (math.exp(-x[0]/10000.)) * (math.sin(.04*x[0]*2**(x[1]/12.))) )
 
         self.sounds = [
         pygame.mixer.Sound(
